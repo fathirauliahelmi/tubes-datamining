@@ -241,6 +241,7 @@ elif menu == "Silhouette Score":
     )
 
     st.metric(
+        "",
         round(score,3)
     )
 
