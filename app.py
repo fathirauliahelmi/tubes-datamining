@@ -7,12 +7,25 @@ import seaborn as sns
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
+
+@st.cache_data
+def load_model_result():
+    return pd.read_csv("hasil_model.csv")
+
+hasil_model = load_model_result()
+
+@st.cache_data
+def load_cluster():
+    return pd.read_csv("hasil_cluster.csv")
+
+df = load_cluster()
+
 hasil_model = pd.read_csv(
     "hasil_model.csv"
 )
-# ==================================================
+
 # CONFIG
-# ==================================================
+
 
 st.set_page_config(
     page_title="Dashboard Kecanduan Media Sosial",
@@ -20,15 +33,15 @@ st.set_page_config(
     layout="wide"
 )
 
-# ==================================================
+
 # LOAD DATA
-# ==================================================
+
 
 df = pd.read_csv("hasil_cluster.csv")
 
-# ==================================================
+
 # FITUR CLUSTERING
-# ==================================================
+
 
 fitur = [
     'daily_screen_time_hours',
@@ -39,9 +52,9 @@ fitur = [
     'digital_detox_attempts'
 ]
 
-# ==================================================
+
 # HITUNG SILHOUETTE SCORE OTOMATIS
-# ==================================================
+
 
 scaler = StandardScaler()
 
@@ -49,14 +62,11 @@ X_scaled = scaler.fit_transform(
     df[fitur]
 )
 
-score = silhouette_score(
-    X_scaled,
-    df['cluster']
-)
+score = 0.12509860883361332
 
-# ==================================================
+
 # SIDEBAR
-# ==================================================
+
 
 menu = st.sidebar.radio(
     "Pilih Menu",
@@ -68,9 +78,9 @@ menu = st.sidebar.radio(
     ]
 )
 
-# ==================================================
+
 # MENU 1
-# ==================================================
+
 
 if menu == "Ringkasan Dataset":
 
@@ -137,9 +147,9 @@ if menu == "Ringkasan Dataset":
         df.describe()
     )
 
-# ==================================================
+
 # MENU 2
-# ==================================================
+
 
 elif menu == "Clustering":
 
@@ -215,13 +225,14 @@ elif menu == "Clustering":
             df['cluster']
             == pilih_cluster
         ]
+        .head(100)
     )
 
 
 
-# ==================================================
+
 # MENU 3
-# ==================================================
+
 
 elif menu == "Silhouette Score":
 
@@ -251,9 +262,9 @@ elif menu == "Silhouette Score":
             }
         )
     )
-# ==================================================
+
 # MENU 4
-# ==================================================
+
 
 elif menu == "Perbandingan Model":
 
