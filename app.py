@@ -237,11 +237,10 @@ elif menu == "Clustering":
 elif menu == "Silhouette Score":
 
     st.title(
-        "Evaluasi Clustering"
+        "Silhouette Score"
     )
 
     st.metric(
-        "Silhouette Score",
         round(score,3)
     )
 
